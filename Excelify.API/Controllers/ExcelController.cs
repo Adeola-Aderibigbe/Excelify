@@ -9,21 +9,21 @@ namespace Excelify.API.Controllers
     [ApiController]
     public class ExcelController : ControllerBase
     {
-        public ExcelController(IExcelService excelService)
+        public ExcelController(ExcelifyFactory excelFactory)
         {
-            _excelService = excelService;      
+            _excelFactory = excelFactory;      
         }
-        [HttpPost("import/{sheetName}")]
+        [HttpPost("import/sheetName")]
         public  IActionResult ImportExcel(IFormFile sheet,int sheetName = 0)
         {
-            _excelService.SetSheetName(sheetName,sheet.ContentType);
+            var excelService = _excelFactory.CreateService(sheet.ContentType);
             try
             {
                 var ms = new MemoryStream();
                 sheet.CopyTo(ms);
                 ms.Position = 0;
 
-                var teacherDtos = _excelService.ImportToEntity<TeacherDTO>(new ImportSheet(ms));
+                var teacherDtos = excelService.ImportToEntity<TeacherDto>(new ImportSheet(ms,sheetName));
 
                 if (teacherDtos.Count == 0)
                 {
@@ -48,11 +48,11 @@ namespace Excelify.API.Controllers
             }
         }
 
-        [HttpPost("export/{sheetName}")]
-        public IActionResult ExportToExcel(string sheetName)
+        [HttpPost("export")]
+        public IActionResult ExportToExcel(string sheetName,string extensionType)
         {
-            
-            var teacher = new TeacherDTO() 
+            var excelService = _excelFactory.CreateService(extensionType);
+            var teacher = new TeacherDto() 
             {
                 Email = "adeolaaderibigbe09@gmail.com",
                 PhoneNumber = 0000,
@@ -70,8 +70,8 @@ namespace Excelify.API.Controllers
 
             try
             {
-                _excelService.ExportToExcel(exportEntity)
-                    .ToFile($"{sheetName}.xlsx");
+                excelService.ExportToBytes(exportEntity)
+                    .ToFile($"{sheetName}.{extensionType}");
                 return Ok();
             }
             catch (Exception ex)
@@ -80,6 +80,6 @@ namespace Excelify.API.Controllers
             }
         }
 
-        private readonly IExcelService _excelService;
+        private readonly ExcelifyFactory _excelFactory;
     }
 }

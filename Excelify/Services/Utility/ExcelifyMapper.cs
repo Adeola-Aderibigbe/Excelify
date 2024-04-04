@@ -18,7 +18,7 @@ namespace Excelify.Services.Utility
                 var currentRows = rows.ToList();
                 while (left < rows.Count())
                 {
-                    var instance = (T)Activator.CreateInstance(typeof(T));
+                    var instance = (T)Activator.CreateInstance(typeof(T)) ?? throw new Exception("Unable to create instance");
                     ExtractProperties<T>(instance, properties, values, currentRows, left);
                     left++;
                     instances.Add(instance);

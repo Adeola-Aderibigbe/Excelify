@@ -2,9 +2,9 @@
 
 namespace Excelify.API.Models
 {
-    public class ExportEntity : IEntityExport<TeacherDTO>
+    public class ExportEntity : ISheetExport<TeacherDto>
     {
         public string SheetName { get; set ; }
-        public IList<TeacherDTO> Entities { get; set ; }
+        public IList<TeacherDto> Entities { get; set ; }
     }
 }

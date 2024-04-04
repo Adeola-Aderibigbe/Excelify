@@ -2,7 +2,7 @@
 
 namespace Excelify.API.Models
 {
-    public class TeacherDTO
+    public class TeacherDto
     {
         [Excelify("id")]
         public int Id { get; set; }

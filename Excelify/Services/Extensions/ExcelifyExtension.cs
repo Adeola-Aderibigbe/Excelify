@@ -10,9 +10,9 @@ namespace Excelify.Services.Extensions
 {
     public static class ExcelifyExtension
     {
-        public static void ToFile(this byte[] workSheet, string fileName)
+        public static void ToFile(this byte[] workSheet, string path)
         {
-            workSheet.WriteToFile(fileName);
+            workSheet.WriteToFile(path);
         }
 
     }

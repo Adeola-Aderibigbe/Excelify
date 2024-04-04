@@ -2,7 +2,7 @@
 
 namespace Excelify.Models
 {
-    public interface IEntityExport<TEntity> 
+    public interface ISheetExport<TEntity> 
     {
        string SheetName { get; set; }
        IList<TEntity> Entities { get; set; }

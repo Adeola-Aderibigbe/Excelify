@@ -6,8 +6,10 @@ using System.Threading.Tasks;
 
 namespace Excelify.Models
 {
-    public interface IImportSheet
+    public interface ISheetImport
     {
        Stream File { get; set; }
+
+       int SheetName { get; set; }
     }
 }

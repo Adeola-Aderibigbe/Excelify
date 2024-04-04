@@ -7,10 +7,11 @@ namespace Excelify.Services
 {
     public interface IExcelService
     {
-        IList<T> ImportToEntity<T> (IImportSheet sheet) where T : class;
-        IList<T> ImportToEntity<T> (IImportSheet sheet, IExcelMapper excelifyMapper) where T : class;
-        byte[] ExportToExcel<T>(IEntityExport<T> dataExport) where T : class;
-        DataTable ImportSheet(IImportSheet sheet);
-        void SetSheetName(int sheetName, string extensionType);
+        IList<T> ImportToEntity<T>(ISheetImport sheet) where T : class;
+        IList<T> ImportToEntity<T>(ISheetImport sheet, IExcelMapper excelifyMapper) where T : class;
+        byte[] ExportToBytes<T>(ISheetExport<T> dataExport) where T : class;
+        Stream ExportToStream<T>(ISheetExport<T> dataExport) where T : class;
+        DataTable ImportToTable(ISheetImport sheet);
+        bool CanImportSheet(string extensionType);
     }
 }
